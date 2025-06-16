@@ -1,4 +1,4 @@
-# nnl
+# nnl 0.1.0 (W.I.P.)
 Сommon lisp neural networks mvp framework
 
 ## Note
@@ -7,6 +7,10 @@ Please be aware: this code was formatted using Notepad++.
 Due to the way it handles indentation,
 the indentation might look a bit unusual.  
 Please don't be alarmed!**.**
+
+## Note
+
+This is an alpha version! API may change.
 
 ## Customizing the Calculus System
 
