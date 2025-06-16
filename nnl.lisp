@@ -6,10 +6,36 @@
   :depends-on (:fiveam :magicl)
   :serial t
   :components ((:module "src"
-				:components ((:module "math"
+				:components ((:module "magicl"
+							  :components ((:file "magicl" :type "lisp")
+										   (:file "coerce-data" :type "lisp")	
+									       (:file "high-level" :type "lisp")))
+							 (:module "math"
 							  :components ((:module "autodiff"
 											:components ((:file "autodiff" :type "lisp")
 														 (:file "autodiff-d" :type "lisp")
+														 (:file "autodiff-i" :type "lisp")
 														 (:file "autodiff-h" :type "lisp")))
 											(:file "numgrad" :type "lisp")))))))
-											
+																										
+(defpackage :nnl.system
+  (:use :cl)
+  (:export :change-calculus-system!))		
+						
+(in-package :nnl.system)
+
+(defparameter *calculus-system* 'single-float
+  "Global variable that determines the floating-point 
+   number system used for calculations within a specific 
+   mathematical functionality")
+						
+(setf *read-default-float-format* *calculus-system*)
+
+(defun change-calculus-system! (new-system)
+  "WARNING: The function has side effects
+  
+   function for quickly changing the type of calculus"
+   
+  (setf *calculus-system* new-system)
+  (setf *read-default-float-format* new-system))					
+						
