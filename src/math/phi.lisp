@@ -11,8 +11,8 @@
   
    returns x if x > 0, otherwise returns 0
 
-   example 1: (relu 2.0) -> (plusp 2.0) -> 2.0s0
-   example 2: (relu -3.0) -> (plusp -3.0) -> 0.0s0
+   example 1: (relu 2.0) -> (if (plusp 2.0) 2.0 0.0) -> 2.0
+   example 2: (relu -3.0) -> (if (plusp -3.0) -3.0 0.0) -> 0.0
 
    if derivative non-nil, returns derivative):
 
@@ -43,7 +43,7 @@
    to change the shift write (setf nnl.system::*leakyrelu-default-shift* +your-value+)"
 
   (if derivative
-    (if (plusp x) 1.0s0 shift)
+    (if (plusp x) 1.0 shift)
     (if (minusp x) (* shift x) x))) ; (max x (* shift x))
 
 (defun sigmoid (x &key (derivative nil))
