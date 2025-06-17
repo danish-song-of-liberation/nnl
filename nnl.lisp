@@ -9,6 +9,7 @@
 				:components ((:module "magicl"
 							  :components ((:file "magicl" :type "lisp")
 										   (:file "coerce-data" :type "lisp")	
+										   (:file "operations" :type "lisp")
 									       (:file "high-level" :type "lisp")))
 							 (:module "math"
 							  :components ((:module "autodiff"

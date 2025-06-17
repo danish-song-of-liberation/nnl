@@ -1,4 +1,4 @@
 (defpackage :nnl.magicl
   (:use :cl)
-  (:export :coerce-array-to-tensor))
+  (:export :coerce-to-tensor :get-magicl-type :get-magicl-type! :transpose :outer))
   
