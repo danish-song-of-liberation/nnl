@@ -4,6 +4,7 @@
 (declaim (inline leaky-relu))
 (declaim (inline sigmoid))
 (declaim (inline tanh))
+(declaim (inline liinear))
 
 (defun relu (x &key (derivative nil))
   "Rectified Linear Unit (ReLU) function.	
