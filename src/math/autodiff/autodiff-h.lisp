@@ -26,6 +26,12 @@
  
 (defmethod ll-mul (other (self tensor))
   (intern-mul self other))
+  
+(defmethod ll-matmul ((self tensor) other)
+  (intern-matmul self other))
+  
+(defmethod ll-matmul (other (self tensor))
+  (intern-matmul other self))
 
 (defun + (&rest args)
   (reduce #'ll-add args))
@@ -34,7 +40,10 @@
   (reduce #'intern-sub args))
   
 (defun * (&rest args)
-  (reduce #'ll-mul args))
+  (reduce #'ll-mul args))  
+  
+(defun matmul (&rest args)
+  (reduce #'ll-matmul args))
   
 (defun item (obj)
   (data obj))

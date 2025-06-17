@@ -87,6 +87,30 @@
 	
 	(setf (backward out) #'(lambda () (derivative-matv out self other))) 
 	
+	out))
+	
+(defmethod intern-matmul ((self tensor) other)
+  (let* ((reccurent-p (eq self other))
+		 (other (if (typep other 'tensor) other (make-instance 'tensor :data other)))
+		 (out (make-instance 'tensor 
+				 :data (magicl:@ (data self) (data other))
+				 :requires-grad (or (requires-grad self) (requires-grad other))
+				 :parents (list self other))))
+	
+	(setf (backward out) #'(lambda () (derivative-matmul out self other reccurent-p))) 
+	
+	out))
+	
+(defmethod intern-matmul (other (self tensor))
+  (let* ((reccurent-p (eq self other))
+		 (other (if (typep other 'tensor) other (make-instance 'tensor :data other)))
+		 (out (make-instance 'tensor 
+				 :data (magicl:@ (data other) (data self))
+				 :requires-grad (or (requires-grad other) (requires-grad self))
+				 :parents (list other self))))
+	
+	(setf (backward out) #'(lambda () (derivative-matmul out other self reccurent-p))) 
+	
 	out))	
 	
 (defun build-topo (v topo visited)

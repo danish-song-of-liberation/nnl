@@ -21,11 +21,23 @@
 (defun derivative-matv (out self other)
   (when (requires-grad self)
     (setf (grad self) (magicl:.+ (grad self) 
-								 (nnl.magicl:outer (print (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*)) (grad out) (data other)))))
+								 (nnl.magicl:outer (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (grad out) (data other)))))
 								 
   (when (requires-grad other)
     (setf (grad other) (magicl:.+ (grad self)
 								  (magicl:@ (data self) (grad out))))))
+	 
+(defun derivative-matmul (out self other reccurent)
+  (when (requires-grad self)
+    (if reccurent
+	  (setf (grad self) (magicl:.+ (grad self) (magicl:.+ (nnl.magicl:transpose (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (data self)) (data self))))
+      (setf (grad self) (magicl:.+ (grad self)   
+								   (magicl:@ (grad out) (nnl.magicl:transpose (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (data other)))))))
+					
+  (unless reccurent 					
+    (when (requires-grad other)
+      (setf (grad other) (magicl:.+ (grad other)
+								    (magicl:@ (nnl.magicl:transpose (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (data self)) (grad out)))))))	
 	 
 	  
   
