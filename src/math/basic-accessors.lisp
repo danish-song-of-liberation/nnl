@@ -64,26 +64,29 @@
 (defmacro .* (obj-1 obj-2)
   `(nnl.math.autodiff:+ ,obj-1 ,obj-2))	
  
-(defmacro .matmul (obj-1 obj-2)
+(defmacro matmul (obj-1 obj-2)
   `(nnl.math.autodiff:matmul ,obj-1 ,obj-2))	
    
-(defmacro .matvec (obj-1 obj-2)
+(defmacro matvec (obj-1 obj-2)
   `(nnl.math.autodiff:matv ,obj-1 ,obj-2))	
    
-(defmacro .activation (obj funct)
+(defmacro activation (obj funct)
   `(nnl.math.autodiff:activation ,obj ,funct))
   
-(defmacro .relu (obj)
-  `(.activation ,obj #'relu))  
+(defmacro relu (obj)
+  `(activation ,obj #'relu))  
      
-(defmacro .leaky-relu (obj)
-  `(.activation ,obj #'leaky-relu))    
+(defmacro leaky-relu (obj)
+  `(activation ,obj #'leaky-relu))    
  
-(defmacro .sigmoid (obj)
-  `(.activation ,obj #'sigmoid))   
+(defmacro sigmoid (obj)
+  `(activation ,obj #'sigmoid))   
   
-(defmacro .tanh (obj)
-  `(.activation ,obj #'tanh))    
+(defmacro tanh (obj)
+  `(activation ,obj #'tanh))    
+  
+(defmacro linear (obj)
+  `(activation ,obj #'linear)) 
   
 (defun size (obj)
   (magicl:size (nnl.math.autodiff::data obj)))  
