@@ -9,7 +9,7 @@
   :homepage "https://github.com/danish-song-of-liberation/nnl"
   :description "Common lisp neural networks mvp framework"
   :depends-on (:fiveam :magicl)
-  :serial t
+  :serial nil
   :components ((:module "src"
 				:components ((:module "magicl"
 							  :components ((:file "magicl" :type "lisp")
@@ -29,7 +29,24 @@
 														 (:file "autodiff-h" :type "lisp")))
 														 
 											(:file "numgrad" :type "lisp")
-											(:file "basic-accessors" :type "lisp")))
+											(:file "basic-accessors" :type "lisp")
+											(:file "broadcasting" :type "lisp")))
+											
+							 (:module "init"
+							  :components ((:file "init" :type "lisp")
+										   (:file "random" :type "lisp")
+										   (:file "xavier-normal" :type "lisp")
+										   (:file "xavier-uniform" :type "lisp")))	
+											
+							 (:module "models"
+							  :components ((:module "fnn"
+											:components ((:file "fnn" :type "lisp")
+														 (:file "fc" :type "lisp")))
+										   (:file "models" :type "lisp")))
+														 
+							 (:module "optims"
+							  :components ((:file "optims" :type "lisp")
+										   (:file "gd" :type "lisp")))
 											
 							 (:module "utils"
 							  :components ((:file "utils" :type "lisp")

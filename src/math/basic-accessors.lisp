@@ -73,19 +73,19 @@
 (defmacro activation (obj funct)
   `(nnl.math.autodiff:activation ,obj ,funct))
   
-(defmacro relu (obj)
+(defmacro .relu (obj)
   `(activation ,obj #'relu))  
      
-(defmacro leaky-relu (obj)
+(defmacro .leaky-relu (obj)
   `(activation ,obj #'leaky-relu))    
  
-(defmacro sigmoid (obj)
+(defmacro .sigmoid (obj)
   `(activation ,obj #'sigmoid))   
   
-(defmacro tanh (obj)
+(defmacro .tanh (obj)
   `(activation ,obj #'tanh))    
   
-(defmacro linear (obj)
+(defmacro .linear (obj)
   `(activation ,obj #'linear)) 
   
 (defun size (obj)

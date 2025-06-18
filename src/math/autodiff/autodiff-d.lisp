@@ -46,3 +46,13 @@
   (when (requires-grad self)
     (setf (grad self) (magicl:.+ (grad self) (magicl:scale (magicl:.- (data self) (data other)) 2)))))
   
+(defun derivative-broadcasting-with-matrix-vector (operation out self other)
+  (when (requires-grad self) (setf (grad self) (magicl:.+ (grad self) (grad out))))
+  ; wip
+  )
+  
+(defun derivative-broadcasting (operand out self shapes-self form-self other shapes-other form-other)
+  (cond  
+    ((and (= form-self 2) (= form-other 1)) (derivative-broadcasting-with-matrix-vector operand out self other))
+	((and (= form-self 1) (= form-other 2)) (derivative-broadcasting-with-matrix-vector operand out other self))))
+  

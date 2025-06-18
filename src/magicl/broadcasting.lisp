@@ -17,8 +17,8 @@
 		 
 	(cond
 	  ((and (= obj-1-form 2) (= obj-2-form 1))
-    	 (broadcast-operation-with-matrix-vector (get-magicl-type obj-1-shape nnl.system::*calculus-system*) obj-1 obj-1-shape obj-2 obj-2-shape funct))
+    	 (values (broadcast-operation-with-matrix-vector (get-magicl-type obj-1-shape nnl.system::*calculus-system*) obj-1 obj-1-shape obj-2 obj-2-shape funct) obj-1-shape obj-1-form obj-2-shape obj-2-form))
 	  ((and (= obj-1-form 1) (= obj-2-form 2)) 
-		 (broadcast-operation-with-matrix-vector (get-magicl-type obj-2-shape nnl.system::*calculus-system*) obj-2 obj-2-shape obj-1 obj-1-shape funct))
-	  ((eq obj-1-form obj-2-form) (funcall funct obj-1 obj-2)))))
+		 (values (broadcast-operation-with-matrix-vector (get-magicl-type obj-2-shape nnl.system::*calculus-system*) obj-2 obj-2-shape obj-1 obj-1-shape funct) obj-1-shape obj-1-form obj-2-shape obj-2-form))
+	  ((eq obj-1-form obj-2-form) (values (funcall funct obj-1 obj-2) obj-1-shape obj-1-form obj-2-shape obj-2-form)))))
 	
