@@ -27,7 +27,13 @@
 														 (:file "autodiff-d" :type "lisp")
 														 (:file "autodiff-i" :type "lisp")
 														 (:file "autodiff-h" :type "lisp")))
-											(:file "numgrad" :type "lisp")))))))
+														 
+											(:file "numgrad" :type "lisp")
+											(:file "basic-accessors" :type "lisp")))
+											
+							 (:module "utils"
+							  :components ((:file "utils" :type "lisp")
+										   (:file "clip-grad" :type "lisp")))))))
 																										
 (defpackage :nnl.system
   (:use :cl)
@@ -41,6 +47,7 @@
    mathematical functionality")
    
 (defparameter *leakyrelu-default-shift* 0.01)
+(defparameter *clipgrad-l1-default-threashold* 1.0)
 						
 (setf *read-default-float-format* *calculus-system*)
 
