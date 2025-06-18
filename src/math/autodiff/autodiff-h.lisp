@@ -50,4 +50,10 @@
 
 (defun gradient (obj)
   (grad obj))  
+
+(defmacro step (obj &key (lr 0.1))
+  `(magicl:.- (data ,obj) (magicl:scale (grad ,obj) ,lr)))
+  
+(defmacro step! (obj &key (lr 0.1))
+  `(setf (data ,obj) (step ,obj :lr ,lr)))
   

@@ -113,6 +113,36 @@
 	
 	out))	
 	
+(defmethod activation ((self tensor) funct)
+  (let* ((out (make-instance 'tensor
+				 :data (magicl:map funct (data self))
+				 :requires-grad (requires-grad self)
+				 :parents (list self))))
+				 
+	(setf (backward out) #'(lambda () (derivative-activation out self funct)))
+			
+	out))
+	
+(defmethod mse ((self tensor) other)
+  (let* ((other (if (typep other 'tensor) other (make-instance 'tensor :data other)))
+		 (out (make-instance 'tensor 
+				 :data (magicl:.^ (magicl:.- (data self) (data other)) 2)
+				 :requires-grad (or (requires-grad self) (requires-grad other))
+				 :parents (list self other))))
+	
+	(setf (backward out) #'(lambda () (derivative-mse out self other))) 
+	
+	out))
+	
+(defun zero-grad-once! (obj)
+  (setf (grad obj) 0.0))
+  
+(defun zero-grad! (obj)
+  (zero-grad-once! obj)
+  
+  (dolist (parent (parents obj))
+    (zero-grad! parent)))
+	
 (defun build-topo (v topo visited)
   (if (member v visited)
     (values topo visited)

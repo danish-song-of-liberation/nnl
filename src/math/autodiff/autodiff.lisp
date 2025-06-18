@@ -1,5 +1,5 @@
 (defpackage :nnl.math.autodiff
   (:use :cl)
-  (:shadow + - *) 
-  (:export :tensor :make-tensor :repr :repr! :backprop :+ :- :* :matv :matmul :gradient :item))
+  (:shadow + - * step) 
+  (:export :tensor :make-tensor :repr :repr! :backprop :+ :- :* :matv :matmul :activation :mse :zero-grad-once! :zero-grad! :step :step! :gradient :item))
   

@@ -39,3 +39,9 @@
   (typecase data
     (array (coerce-array-to-tensor data))
 	(list (coerce-list-to-tensor data))))
+
+(defun make-random-data (shapes &key (from 0.0) (to 1.0))
+  (case (length shapes)
+    (1 (make-random-vector (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))
+	(2 (make-random-matrix (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))
+	(3 (make-random-tensor (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))))

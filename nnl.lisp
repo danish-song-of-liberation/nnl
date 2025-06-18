@@ -15,6 +15,8 @@
 							  :components ((:file "magicl" :type "lisp")
 										   (:file "coerce-data" :type "lisp")	
 										   (:file "operations" :type "lisp")
+										   (:file "random" :type "lisp")
+										   (:file "broadcasting" :type "lisp")
 									       (:file "high-level" :type "lisp")))
 										   
 							 (:module "math"

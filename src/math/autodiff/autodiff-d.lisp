@@ -39,5 +39,10 @@
       (setf (grad other) (magicl:.+ (grad other)
 								    (magicl:@ (nnl.magicl:transpose (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (data self)) (grad out)))))))	
 	 
-	  
+(defun derivative-activation (out self funct)
+  (when (requires-grad self) (setf (grad self) (magicl:.+ (grad self) (magicl:.* (grad out) (magicl:map #'(lambda (x) (funcall funct x :derivative t)) (data self)))))))
+  
+(defun derivative-mse (out self other)
+  (when (requires-grad self)
+    (setf (grad self) (magicl:.+ (grad self) (magicl:scale (magicl:.- (data self) (data other)) 2)))))
   
