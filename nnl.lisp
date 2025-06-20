@@ -22,6 +22,7 @@
 							 (:module "math"
 							  :components ((:file "math" :type "lisp")
 										   (:file "phi" :type "lisp")
+										   
 										   (:module "autodiff"
 											:components ((:file "autodiff" :type "lisp")
 														 (:file "autodiff-d" :type "lisp")
@@ -39,10 +40,8 @@
 										   (:file "xavier-uniform" :type "lisp")))	
 											
 							 (:module "models"
-							  :components ((:module "fnn"
-											:components ((:file "fnn" :type "lisp")
-														 (:file "fc" :type "lisp")))
-										   (:file "models" :type "lisp")))
+							  :components ((:file "models" :type "lisp")
+										   (:file "fc" :type "lisp")))
 														 
 							 (:module "optims"
 							  :components ((:file "optims" :type "lisp")
