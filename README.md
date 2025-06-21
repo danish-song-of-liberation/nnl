@@ -156,7 +156,7 @@ Do not forget to reset the gradients (otherwise you'll get a stack dump after 5 
 
 
 
-### Models: Current Status and Future Directions (Модели: Текущее состояние и будущие направления)
+### Models: Current Status and Future Directions
 
 NNL currently includes implementations of several common neural network models (e.g., `fc`, `sequential`). However, these models have a low-level interface and are not yet intended for general use. They are actively being developed and refined.
 
