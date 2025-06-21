@@ -1,4 +1,4 @@
 (defpackage :nnl.optims
   (:use :cl)
-  (:export :backpropagation))
+  (:export :backpropagation :zero-grad))
   

@@ -1,5 +1,10 @@
 (in-package :nnl.math)
 
+#| Philipp Mainlender (1841 - 1876)
+   - 
+   Sie erschufen sich Götter, 
+   weil sie es nicht konnten. |#
+
 (defmethod ufunc ((self nnl.math.autodiff:tensor) &optional (funct #'+) (init 0.0))
   "todo"
   
@@ -102,4 +107,18 @@
   
 (defmacro backprop (obj)
   `(nnl.math.autodiff:backprop ,obj))  
+  
+(defun transpose (obj)
+  (let ((data-tensor (nnl.math.autodiff::data obj)))
+    (setf (nnl.math.autodiff::data obj) (nnl.magicl:transpose (nnl.magicl:get-magicl-type (magicl:shape data-tensor) nnl.system::*calculus-system*) data-tensor)))
+	
+  obj)
+
+(defun scale (obj multiplier)
+  (magicl:scale! (nnl.math.autodiff::data obj) multiplier)
+  
+  obj)
+  
+(defmacro numerical (function tensor &key (epsilon 0.001) (precision 1))
+  `(nnl.magicl:numerical ,function (nnl.math.autodiff::data ,tensor) :epsilon ,epsilon :precision ,precision))  
   

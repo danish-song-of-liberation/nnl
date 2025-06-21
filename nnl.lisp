@@ -15,9 +15,11 @@
 							  :components ((:file "magicl" :type "lisp")
 										   (:file "coerce-data" :type "lisp")	
 										   (:file "operations" :type "lisp")
+										   (:file "deep-copy" :type "lisp")
 										   (:file "random" :type "lisp")
 										   (:file "broadcasting" :type "lisp")
-									       (:file "high-level" :type "lisp")))
+									       (:file "high-level" :type "lisp")
+										   (:file "numgrad" :type "lisp")))
 										   
 							 (:module "math"
 							  :components ((:file "math" :type "lisp")
@@ -29,7 +31,6 @@
 														 (:file "autodiff-i" :type "lisp")
 														 (:file "autodiff-h" :type "lisp")))
 														 
-											(:file "numgrad" :type "lisp")
 											(:file "basic-accessors" :type "lisp")
 											(:file "broadcasting" :type "lisp")))
 											
@@ -41,7 +42,8 @@
 											
 							 (:module "models"
 							  :components ((:file "models" :type "lisp")
-										   (:file "fc" :type "lisp")))
+										   (:file "fc" :type "lisp")
+										   (:file "sequential" :type "lisp")))
 														 
 							 (:module "optims"
 							  :components ((:file "optims" :type "lisp")

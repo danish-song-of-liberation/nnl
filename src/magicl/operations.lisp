@@ -33,5 +33,50 @@
 	
 	new-matrix))
 	
-	
+(defun sum (tensor &key axes)
+  "The sum function is already available 
+   in magicl, but it does not support 
+   column or row summation and simply 
+   returns a single sum. 
+   
+   This is crucial for broadcasting in 
+   neural networks, so I have to implement 
+   my own function."
+   
+  (let* ((shape (magicl:shape tensor))
+		 (rank (length shape)))
+		 
+	(when axes
+	  (dolist (axis axes)
+	    (assert (< axis rank) () "~a Axis goes beyond the rank of the tensor (~a)." axis rank)))
+		
+	(cond
+	  ((null axes)
+	    (magicl:sum tensor))
+
+	  ((= 1 (length axes))
+	    (let* ((axis (first axes))
+			   (new-shape (loop for i from 0 below rank unless (= i axis) collect (nth i shape)))
+			   (result (magicl:zeros new-shape)))
+			   
+		   (if (= axis 0)
+             (dotimes (j (second shape))
+               (let ((sum 0))
+                 (dotimes (i (first shape))
+                   (setq sum (+ sum (magicl:tref tensor i j))))
+				   
+                 (setf (magicl:tref result j) sum)))
+             
+             (dotimes (i (first shape))
+               (let ((sum 0))
+                 (dotimes (j (second shape))
+                   (setq sum (+ sum (magicl:tref tensor i j))))
+				   
+                 (setf (magicl:tref result i) sum))))
+         
+			  
+		  result))
+		  
+	  (t 
+	    (reduce #'(lambda (tensor axis) (sum tensor :axes (list axis))) axes :initial-value tensor)))))
 		

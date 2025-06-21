@@ -1,5 +1,10 @@
 (in-package :nnl.math)
 
+#| Philipp Mainlender (1841 - 1876)
+   - 
+   Richtig und falsch sind Begriffe, 
+   die im Zustand der Natur keine Bedeutung haben |#
+
 (declaim (inline relu))
 (declaim (inline leaky-relu))
 (declaim (inline sigmoid))

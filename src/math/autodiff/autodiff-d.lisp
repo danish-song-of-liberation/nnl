@@ -48,8 +48,11 @@
   
 (defun derivative-broadcasting-with-matrix-vector (operation out self other)
   (when (requires-grad self) (setf (grad self) (magicl:.+ (grad self) (grad out))))
-  ; wip
-  )
+  (when (requires-grad other) 
+    (let* ((out-grad (grad out))
+		   (summed-grad (nnl.magicl:sum out-grad :axes '(1))))
+	  
+	  (setf (grad other) (if (grad other) (magicl:.+ (grad other) summed-grad) summed-grad)))))
   
 (defun derivative-broadcasting (operand out self shapes-self form-self other shapes-other form-other)
   (cond  

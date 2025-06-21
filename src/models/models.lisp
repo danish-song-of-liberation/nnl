@@ -1,3 +1,8 @@
 (defpackage :nnl.nn
   (:use :cl)
-  (:export))
+  (:export :forward))
+  
+(in-package :nnl.nn)
+
+(defgeneric forward (model data))
+  
