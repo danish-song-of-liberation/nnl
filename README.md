@@ -103,7 +103,7 @@ This example demonstrates how to use `requires-grad` and perform backpropagation
     (nnl.math:backprop loss)
 
     (format t "a Gradient: ~a~%" (nnl.math:grad a)) ; #<matrix/single-float (2x2): 268, 364, 888, 1208>
-    (format t "b Gradient: ~a~%" (nnl.math:grad b)))) ; #<matrix/single-float (2x2): 236, 292, 328, 402>
+    (format t "b Gradient: ~a~%" (nnl.math:grad b)))) ; #<matrix/single-float (2x2): 236, 292, 328, 408>
 ```
 
 **Explanation:**
