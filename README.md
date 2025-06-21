@@ -1,6 +1,8 @@
 # nnl 0.1.0 (W.I.P.)
 Сommon lisp neural networks mvp framework
 
+**About the Author:** This framework is being developed by a 14-year-old as a personal *solo* project. It's currently 5 days in the making! *All code, all bugs, all mine!*
+
 ## Note
 
 Please be aware: this code was formatted using Notepad++.  
