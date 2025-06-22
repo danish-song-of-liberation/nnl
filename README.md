@@ -163,7 +163,7 @@ Do not forget to reset the gradients (otherwise you'll get a stack dump after 5 
 
 
 
-**Addition:*
+**Addition:**
 
 The framework contains methods for numerical gradients, but they will be discussed in the full documentation that is under development.
 Here is a brief overview: numerical gradients are more compatible with magicl than with nnl (although they are partially compatible with both). 
