@@ -60,14 +60,14 @@
 (defun grad (obj)
   (nnl.math.autodiff::grad obj))
   
-(defmacro .+ (obj-1 obj-2)
+(defmacro + (obj-1 obj-2)
   `(nnl.math.autodiff:+ ,obj-1 ,obj-2))	
 
-(defmacro .- (obj-1 obj-2)
+(defmacro - (obj-1 obj-2)
   `(nnl.math.autodiff:- ,obj-1 ,obj-2))	
     
-(defmacro .* (obj-1 obj-2)
-  `(nnl.math.autodiff:+ ,obj-1 ,obj-2))	
+(defmacro * (obj-1 obj-2)
+  `(nnl.math.autodiff:* ,obj-1 ,obj-2))	
  
 (defmacro matmul (obj-1 obj-2)
   `(nnl.math.autodiff:matmul ,obj-1 ,obj-2))	
@@ -120,5 +120,8 @@
   obj)
   
 (defmacro numerical (function tensor &key (epsilon 0.001) (precision 1))
-  `(nnl.magicl:numerical ,function (nnl.math.autodiff::data ,tensor) :epsilon ,epsilon :precision ,precision))  
+  `(nnl.magicl:numerical ,function (nnl.math.autodiff::data ,tensor) :epsilon ,epsilon :precision ,precision))
+
+(defmacro instant-mse (data-1 data-2)
+  `(nnl.math.autodiff::data (nnl.math.autodiff:mse (nnl.math.autodiff:make-tensor :data ,data-1) (nnl.math.autodiff:make-tensor :data ,data-2))))
   

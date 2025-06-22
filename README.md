@@ -13,6 +13,13 @@ The code is formatted in Notepad++, so the indentation may look like a cat did i
 
 This is an alpha version! API may change.
 
+## Note on Documentation Completeness:
+This documentation is currently a work in progress. 
+As a solo developer, I'm actively expanding and refining the content. 
+Full documentation covering all features (including advanced autodiff capabilities and model architectures) will be released in upcoming versions. 
+
+Your patience is appreciated!
+
 ## Customizing the Calculus System
 
 By default, `nnl` uses `single-float` for all numerical computations.  However, you can easily change the calculus system to use a different floating-point type, such as `double-float`, to increase precision.
@@ -154,6 +161,29 @@ After performing backpropagation, it's essential to zero the gradients of the te
 Do not forget to reset the gradients (otherwise you'll get a stack dump after 5 epochs)
 
 
+
+
+**Addition:*
+
+The framework contains methods for numerical gradients, but they will be discussed in the full documentation that is under development.
+Here is a brief overview: numerical gradients are more compatible with magicl than with nnl (although they are partially compatible with both). 
+
+**Here is an example of code in mse:**
+```lisp
+(ql:quickload :nnl)
+
+(defun nummse (x)
+  (nnl.math:instant-mse x (nnl.magicl:coerce-to-tensor #(2 2))))
+
+(let ((a (nnl.magicl:coerce-to-tensor #(1 1)))
+      (b (nnl.math:make-tensor #(1 1) :requires-grad t)))
+
+  (nnl.math:backprop (nnl.math.autodiff:mse b (nnl.math:make-tensor #(2 2))))
+
+  (format t "~%Autodiff grad: ~a~%~%" (nnl.math:grad b))
+
+  (format t "Numerical grad: ~a~%~%" (nnl.magicl:numerical #'nummse a :precision 1))) ; precision 1 - df/dx [i] = lim (h -> 0.0) (f(x + he_i) - f(x)) / h
+```
 
 
 ### Models: Current Status and Future Directions
