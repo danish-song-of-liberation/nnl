@@ -14,8 +14,11 @@
 	
    (:documentation "todo"))
    
-(defmethod backpropagation ((self intern-gradient-descent) &key (lr nil) (network nil) (input nil) (tags nil) (loss #'nnl.math.autodiff:mse))
-  (let ((forward-loss (funcall loss (nnl.nn:forward network input) (nnl.math:transpose tags)))
+(defmethod backpropagation ((self intern-gradient-descent) &key (lr nil) (transpose t) (network nil) (input nil) (tags nil) (loss #'nnl.math.autodiff:mse))
+  (when transpose
+    (nnl.math:transpose tags))
+
+  (let ((forward-loss (funcall loss (nnl.nn:forward network input) tags))
         (self-lr (learning-rate self)))
         
     (when lr

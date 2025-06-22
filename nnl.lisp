@@ -45,6 +45,7 @@
 										   (:file "fc" :type "lisp")
 										   (:file "relu" :type "lisp")
 										   (:file "leaky-relu" :type "lisp")
+										   (:file "sigmoid" :type "lisp")
 										   (:file "activation" :type "lisp")
 										   (:file "mlp" :type "lisp")
 										   (:file "sequential" :type "lisp")))
