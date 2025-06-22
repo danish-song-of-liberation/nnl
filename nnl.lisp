@@ -43,6 +43,10 @@
 							 (:module "models"
 							  :components ((:file "models" :type "lisp")
 										   (:file "fc" :type "lisp")
+										   (:file "relu" :type "lisp")
+										   (:file "leaky-relu" :type "lisp")
+										   (:file "activation" :type "lisp")
+										   (:file "mlp" :type "lisp")
 										   (:file "sequential" :type "lisp")))
 														 
 							 (:module "optims"

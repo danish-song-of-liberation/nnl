@@ -49,7 +49,7 @@
 
   (if derivative
     (if (plusp x) 1.0 shift)
-    (if (minusp x) (* shift x) x))) ; (max x (* shift x))
+    (if (minusp x) (cl:* shift x) x))) ; (max x (* shift x))
 
 (defun sigmoid (x &key (derivative nil))
   "Sigmoid function and its derivative.
@@ -71,9 +71,9 @@
 
   (if derivative
     (let ((sig (sigmoid x)))
-      (* sig (- 1.0 sig)))
+      (cl:* sig (cl:- 1.0 sig)))
 	  
-    (/ 1.0 (+ 1.0 (exp (- x))))))
+    (cl:/ 1.0 (cl:+ 1.0 (cl:exp (cl:- x))))))
 
 (defun tanh (x &key (derivative nil))
   "Hyperbolic tangent function (tanh).
@@ -95,7 +95,7 @@
    example 3: (tanh -1.5 :derivative t) -> 0.180"
 
   (if derivative
-    (- 1.0 (* (tanh x) (tanh x)))
+    (cl:- 1.0 (cl:* (tanh x) (tanh x)))
     (cl:tanh x)))
 
 (defun linear (x &key (derivative nil))
