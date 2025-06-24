@@ -266,6 +266,27 @@ Example:
 $(nnl.math:make-tensor #(1 2 3 4 5 6 7 8 9 0))
 ```
 
+**ABOUT MLP:**
+
+MLP does not yet have a high-level interface
+
+The definition looks something like this:
+
+```lisp
+(nnl.nn:mlp :order '(2 2 nnl.nn::intern-tanh 1 nnl.nn::intern-sigmoid))
+```
+
+which is similar
+
+```lisp
+(nnl.hli:sequential
+  (nnl.hli:fc 2 -> 2)
+  (nnl.hli:fc 2 -> 2)
+  (nnl.nn:tanh)
+  (nnl.hli:fc 2 -> 1)
+  (nnl.nn:sigmoid))
+```
+
 
 **TODO:**
 

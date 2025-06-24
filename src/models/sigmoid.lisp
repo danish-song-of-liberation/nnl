@@ -10,5 +10,5 @@
   (list)) ; it should return nil but I'm afraid the optimizer will complain. and in the end, an empty list is the same as nil
   
 (defmacro sigmoid ()
-  `(make-instance 'intern-sigmoid))   
+  `(make-instance 'intern-sigmoid))
     

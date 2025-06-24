@@ -7,5 +7,5 @@
   `(nnl.nn:fc :i ,i :o ,o ,@keys))
 
 (defmacro mlp (neurons &body keys)
-  `(nnl.nn:mlp :order (loop for item in ,neurons if (or (numberp item) (functionp item)) collect item) ,@keys))
+  `(nnl.nn:mlp :order (loop for item in ,neurons when (identity item) collect item) ,@keys))
   
