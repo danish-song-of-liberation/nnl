@@ -257,7 +257,7 @@ Here's a preview of what model definition will look like in future versions. *No
       (nnl.optims:step optim)
       (nnl.optims:zero-grad optim)))
 
-  (print (nnl.math:item (nnl.nn:forward a input)))) ; <<-- THE RESULT IS INCORRECT
+  (print (nnl.math:item (nnl.nn:forward a input)))) ; <<-- THE RESULT IS INCORRECT CAUSE BIAS
 ```
 
 **TODO:**
