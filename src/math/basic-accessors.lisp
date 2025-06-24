@@ -108,11 +108,19 @@
 (defmacro backprop (obj)
   `(nnl.math.autodiff:backprop ,obj))  
   
-(defun transpose (obj)
+(defun transpose! (obj)
   (let ((data-tensor (nnl.math.autodiff::data obj)))
     (setf (nnl.math.autodiff::data obj) (nnl.magicl:transpose (nnl.magicl:get-magicl-type (magicl:shape data-tensor) nnl.system::*calculus-system*) data-tensor)))
 	
   obj)
+  
+(defun transpose (obj)
+  (let* ((obj obj)
+		 (data-tensor (nnl.math.autodiff::data obj)))
+		 
+    (setf (nnl.math.autodiff::data obj) (nnl.magicl:transpose (nnl.magicl:get-magicl-type (magicl:shape data-tensor) nnl.system::*calculus-system*) data-tensor))
+	
+    obj))
 
 (defun scale (obj multiplier)
   (magicl:scale! (nnl.math.autodiff::data obj) multiplier)

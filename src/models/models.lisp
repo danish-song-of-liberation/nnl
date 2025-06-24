@@ -1,8 +1,10 @@
 (defpackage :nnl.nn
   (:use :cl)
-  (:export :forward))
+  (:shadow tanh)
+  (:export :forward :sequential :fc :mlp :relu :leaky-relu :sigmoid :tanh :get-parameters))
   
 (in-package :nnl.nn)
 
 (defgeneric forward (model data))
+(defgeneric parameters (model))
   

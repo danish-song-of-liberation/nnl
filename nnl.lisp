@@ -46,6 +46,7 @@
 										   (:file "relu" :type "lisp")
 										   (:file "leaky-relu" :type "lisp")
 										   (:file "sigmoid" :type "lisp")
+										   (:file "tanh" :type "lisp")
 										   (:file "activation" :type "lisp")
 										   (:file "mlp" :type "lisp")
 										   (:file "sequential" :type "lisp")))
@@ -56,7 +57,12 @@
 											
 							 (:module "utils"
 							  :components ((:file "utils" :type "lisp")
-										   (:file "clip-grad" :type "lisp")))))))
+										   (:file "clip-grad" :type "lisp")))
+										   
+							 (:module "api"
+							  :components ((:file "api" :type "lisp")
+										   (:file "quick" :type "lisp")
+										   (:file "highlevel" :type "lisp")))))))
 																										
 (defpackage :nnl.system
   (:use :cl)

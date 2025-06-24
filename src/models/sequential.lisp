@@ -25,11 +25,14 @@
   
 (defmethod get-parameters ((self intern-sequential) &aux (params '()))
   (dolist (layer (layers self))
-    (push (parameters layer) params))
+    (push (get-parameters layer) params))
   
   params)  
   
 (defmethod set-bias ((self intern-sequential) state)
   (dolist (layer (layers self))
     (set-bias layer state)))  
+  
+(defmacro sequential (&body layers)
+  `(make-instance 'intern-sequential :layers (list ,@layers)))  
   

@@ -48,6 +48,11 @@
 	
   input-data)
 
-(defmethod parameters ((nn intern-mlp))
+(defmethod get-parameters ((nn intern-mlp))
   (loop for layer in (layers nn)
-		append (parameters layer)))
+		append (get-parameters layer)))
+		
+(defmacro mlp (&body keys)
+  "my little pony: frienship is magic (todo documentation)"
+
+  `(make-instance 'intern-mlp ,@keys))		

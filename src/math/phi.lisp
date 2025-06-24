@@ -95,7 +95,7 @@
    example 3: (tanh -1.5 :derivative t) -> 0.180"
 
   (if derivative
-    (cl:- 1.0 (cl:* (tanh x) (tanh x)))
+    (cl:- 1.0 (cl:* (cl:tanh x) (cl:tanh x)))
     (cl:tanh x)))
 
 (defun linear (x &key (derivative nil))

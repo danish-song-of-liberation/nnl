@@ -12,6 +12,6 @@
 (defmethod forward ((nn intern-activation) input-data)
   (nnl.math:activation input-data (activation-function nn)))
   
-(defmethod parameters ((nn intern-activation))
+(defmethod get-parameters ((nn intern-activation))
   (list)) ; it should return nil but I'm afraid the optimizer will complain. and in the end, an empty list is the same as nil
   
