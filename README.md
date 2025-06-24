@@ -260,6 +260,19 @@ Here's a preview of what model definition will look like in future versions. *No
   (print (nnl.math:item (nnl.nn:forward a input)))) ; <<-- THE RESULT IS INCORRECT
 ```
 
+**TODO:**
+
+MLP(rework), Vanilla RNN, GRU, LSTM, BiRNN, BiGRU, BiLSTM, potentially transformers, potentially lenet
+optimize Autodiff
+make documentation
+make a dropout, dropconnect
+leave the docstring in most functions and seriously optimize them
+the ability to save and load neural networks
+add the ability to download datasets from the internet
+add pad-sequence, embeddings, one-hot
+add swish, mish, hardtanh, h-swish, relu6, linear, and the ability to add your own activation functions
+add cross-entropy, binary-cross-entropy
+add tests
 
 <br><br><br><br><br><br><br><br><br><br>
 
