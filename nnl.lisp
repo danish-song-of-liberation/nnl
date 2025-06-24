@@ -62,11 +62,18 @@
 							 (:module "api"
 							  :components ((:file "api" :type "lisp")
 										   (:file "quick" :type "lisp")
-										   (:file "highlevel" :type "lisp")))))))
-																										
+										   (:file "highlevel" :type "lisp")))))
+					
+			   (:module "tests"
+			    :components ((:module "math"
+							  :components ((:file "math-tests" :type "lisp")
+										   (:file "phi-tests" :type "lisp")))
+										   
+							 (:file "tests")))))
+						 																				
 (defpackage :nnl.system
   (:use :cl)
-  (:export :change-calculus-system!))		
+  (:export :change-calculus-system! ~=))		
 						
 (in-package :nnl.system)
 
@@ -76,6 +83,7 @@
    mathematical functionality")
    
 (defparameter *leakyrelu-default-shift* 0.01)
+(defparameter *approximately-equal-default-tolerance* 0.0001)
 (defparameter *clipgrad-l1-default-threashold* 1.0)
 						
 (setf *read-default-float-format* *calculus-system*)
@@ -87,4 +95,7 @@
    
   (setf *calculus-system* new-system)
   (setf *read-default-float-format* new-system))					
+						
+(defun ~= (x y &key (tolerance *approximately-equal-default-tolerance*))
+  (<= (abs (- x y)) tolerance))						
 						
