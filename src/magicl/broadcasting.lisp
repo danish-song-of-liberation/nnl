@@ -5,7 +5,7 @@
 	
 	(dotimes (i (car shapes-matrix))
 	  (dotimes (j (cadr shapes-matrix))
-	    (setf (magicl:tref new-matrix i j) (funcall funct (magicl:tref matrix i j) (magicl:tref vector i)))))
+	    (setf (magicl:tref new-matrix i j) (funcall funct (magicl:tref matrix i j) (magicl:tref vector j)))))
 		
 	new-matrix))
 	

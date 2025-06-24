@@ -218,47 +218,54 @@ The planned syntax will look something like this:
 
 The high-level interface for model creation is partially implemented but still considered experimental. While you can already define models using the DSL-like syntax, i recommend against using it in production until the following issues are resolved:
 
-1. Bias computation in layers is currently non-functional (will be fixed in next release)
+1. Loss calculation requires manual tensor operations (will be simplified)
 
-2. Loss calculation requires manual tensor operations (will be simplified)
+2. The API is still subject to change
 
-3. The API is still subject to change
-
-Example of Experimental Interface
-Here's a preview of what model definition will look like in future versions. *Note* that this code is not fully functional in the current release due to the bias computation issue:
+Example of Experimental Interface (XOR):
 
 ```lisp
 (ql:quickload :nnl)
 
 (setf *random-state* (make-random-state t))
 
-(let* ((a (nnl.hli:sequential
-             (nnl.hli:fc 2 -> 2 :use-bias nil) ; currently must set :use-bias nil
-             (nnl.hli:fc 2 -> 2 :use-bias nil) ; due to unimplemented bias
+$(let* ((a (nnl.hli:sequential
+             (nnl.hli:fc 2 -> 2)
+             (nnl.hli:fc 2 -> 2)
              (nnl.nn:tanh)
-             (nnl.hli:fc 2 -> 1 :use-bias nil)
+             (nnl.hli:fc 2 -> 1)
              (nnl.nn:sigmoid)))
 
-       (parameters (nnl.nn:get-parameters a))
-       (epochs 10)
-       (optim (nnl.optims:make-optim 'nnl.optims:gd :lr 0.1 :parameters parameters))
+        (input (nnl.math:make-tensor #2A((0 0) (1 0) (0 1) (1 1))))
+        (target (nnl.math:make-tensor #2A((0) (1) (1) (0))))
 
-       (input (nnl.math:make-tensor #2A((0 0) (1 0) (0 1) (1 1))))
-       (target (nnl.math:make-tensor #2A((0) (1) (1) (0)))))
+        (epochs 1000)
+        (params (nnl.nn:get-parameters a))
+
+        (optim (nnl.optims:make-optim 'nnl.optims:gd :lr 1 :parameters params)))
 
   (dotimes (i epochs)
     (let* ((forward-pass (nnl.nn:forward a input))
-           (loss (nnl.math.autodiff:mse forward-pass target))) ; loss calculation will be simplified
+           (loss (nnl.math.autodiff:mse forward-pass target)))
 
       (nnl.math:backprop loss)
 
-      (nnl.utils:clip-grad parameters :method :l1) ; gradient clipping aviable (so far only l1 method)
+      (nnl.utils:clip-grad params :method :l1)
 
       (nnl.optims:step optim)
       (nnl.optims:zero-grad optim)))
 
-  (print (nnl.math:item (nnl.nn:forward a input)))) ; <<-- THE RESULT IS INCORRECT CAUSE BIAS
+  (nnl.nn:forward a input)) ; approximately #(0 1 1 0)
 ```
+
+*$* Is an special operator that displays tensor values
+
+Example:
+
+```lisp
+$(nnl.math:make-tensor #(1 2 3 4 5 6 7 8 9 0))
+```
+
 
 **TODO:**
 

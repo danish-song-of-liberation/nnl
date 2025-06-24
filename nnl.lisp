@@ -69,7 +69,10 @@
 							  :components ((:file "math-tests" :type "lisp")
 										   (:file "phi-tests" :type "lisp")))
 										   
-							 (:file "tests")))))
+							 (:file "tests"))))
+							 
+	:perform (asdf:test-op (o c)
+               (uiop:symbol-call :nnl.tests :run-all-tests)))
 						 																				
 (defpackage :nnl.system
   (:use :cl)

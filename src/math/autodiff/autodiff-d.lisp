@@ -50,7 +50,7 @@
   (when (requires-grad self) (setf (grad self) (magicl:.+ (grad self) (grad out))))
   (when (requires-grad other) 
     (let* ((out-grad (grad out))
-		   (summed-grad (nnl.magicl:sum out-grad :axes '(1))))
+		   (summed-grad (nnl.magicl:sum out-grad :axes '(0))))
 	  
 	  (setf (grad other) (if (grad other) (magicl:.+ (grad other) summed-grad) summed-grad)))))
   
