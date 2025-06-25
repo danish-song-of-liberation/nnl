@@ -62,6 +62,32 @@
     (setf (grad other) (magicl:.+ (grad other) (grad out)))))
 
 (defun derivative-hstack (out self other)
-  "todo")
-  
+  (when (requires-grad self)
+    (let* ((out-grad (grad out))
+           (self-cols (magicl:ncols (data self)))
+           (grad-self (nnl.magicl:slice out-grad 0 (1- (magicl:nrows out-grad)) 0 (1- self-cols))))
+		   
+      (setf (grad self) (if (grad self) (magicl:.+ (grad self) grad-self) grad-self))))
+	  
+  (when (requires-grad other)
+    (let* ((out-grad (grad out))
+           (self-cols (magicl:ncols (data self)))
+           (grad-other (nnl.magicl:slice out-grad 0 (1- (magicl:nrows out-grad)) self-cols (1- (magicl:ncols out-grad)))))
+		   
+      (setf (grad other) (if (grad other) (magicl:.+ (grad other) grad-other) grad-other)))))	  
+	
+(defun derivative-vstack (out self other)
+  (when (requires-grad self)
+    (let* ((out-grad (grad out))
+           (self-rows (magicl:nrows (data self)))
+           (grad-self (nnl.magicl:slice out-grad 0 (1- self-rows) 0 (1- (magicl:ncols out-grad)))))
+           
+      (setf (grad self) (if (grad self) (magicl:.+ (grad self) grad-self) grad-self))))
+
+  (when (requires-grad other)
+    (let* ((out-grad (grad out))
+           (self-rows (magicl:nrows (data self)))
+           (grad-other (nnl.magicl:slice out-grad self-rows (1- (magicl:nrows out-grad)) 0 (1- (magicl:ncols out-grad)))))
+           
+      (setf (grad other) (if (grad other) (magicl:.+ (grad other) grad-other) grad-other)))))	  
 	

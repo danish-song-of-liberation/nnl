@@ -52,6 +52,24 @@
 (defmethod axpy (other (self tensor) &key (alpha 1.0))
   (intern-axpy other self :alpha alpha))
   
+(defmethod ll-hstack ((self tensor) other)
+  (intern-hstack other self))  
+  
+(defmethod ll-hstack (other (self tensor))
+  (intern-hstack other self))  
+  
+(defun hstack (&rest args)
+  (reduce #'ll-hstack args))  
+  
+(defmethod ll-vstack ((self tensor) other)
+  (intern-vstack other self))  
+  
+(defmethod ll-vstack (other (self tensor))
+  (intern-vstack other self))  
+  
+(defun vstack (&rest args)
+  (reduce #'ll-vstack args))    
+  
 (defun item (obj)
   (data obj))
 

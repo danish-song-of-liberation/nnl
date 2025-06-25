@@ -148,3 +148,15 @@
 	:parents (nnl.math.autodiff::parents obj)
 	:backward (nnl.math.autodiff::backward obj)))
   
+(defmacro hstack (&body args)
+  `(nnl.math.autodiff:hstack ,@args))  
+  
+(defmacro vstack (&body args)
+  `(nnl.math.autodiff:vstack ,@args))    
+  
+(defmacro concat (axis &body tensors)
+  `(case ,axis
+     (0 (vstack ,@tensors))
+	 (1 (hstack ,@tensors))
+	 (otherwise (error "todo description"))))
+  
