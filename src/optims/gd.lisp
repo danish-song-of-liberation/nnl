@@ -20,13 +20,6 @@
   (if (listp parameters)
     (mapcar #'(lambda (param) (update-parameters param learning-rate)) parameters)
     (nnl.math.autodiff:step! parameters :lr learning-rate)))   
-	
-(defun zero-parameters (parameters)
-  "todo optimize"
-  
-  (if (listp parameters)
-    (mapcar #'zero-parameters parameters)
-    (nnl.math.autodiff:zero-grad-once! parameters)))	
    
 (defmethod step ((self gd) &key (lr nil))
   (let ((self-lr (learning-rate self)))

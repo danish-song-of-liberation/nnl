@@ -21,7 +21,7 @@
   (nnl.math.autodiff:make-tensor :data (nnl.magicl:coerce-to-tensor data) :requires-grad requires-grad))
 	
 (defun zeros (shape &key (requires-grad nil))
-  (nnl.math.autodiff:make-tensor :data (magicl:zeros shape)	:requires-grad requires-grad))
+  (nnl.math.autodiff:make-tensor :data (magicl:zeros shape)	:requires-grad requires-grad)) 
   
 (defun ones (shape &key (requires-grad nil))
   (nnl.math.autodiff:make-tensor :data (magicl:ones shape) :requires-grad requires-grad))
@@ -70,7 +70,10 @@
   `(nnl.math.autodiff:* ,obj-1 ,obj-2))	
  
 (defmacro matmul (obj-1 obj-2)
-  `(nnl.math.autodiff:matmul ,obj-1 ,obj-2))	
+  `(nnl.math.autodiff:matmul ,obj-1 ,obj-2))
+
+(defmacro axpy (obj-1 obj-2 &key (alpha 1.0))
+  `(nnl.math.autodiff:axpy ,obj-1 ,obj-2 :alpha ,alpha))    
    
 (defmacro matvec (obj-1 obj-2)
   `(nnl.math.autodiff:matv ,obj-1 ,obj-2))	
@@ -101,6 +104,10 @@
   
 (defun shape (obj)
   (magicl:shape (nnl.math.autodiff::data obj)))    
+  
+(defun zeros-like (atensor &key (requires-grad nil))
+  (let ((shape (shape atensor)))
+    (zeros shape :requires-grad requires-grad)))  
  
 (defmacro at (obj &body indexs)
   `(magicl:tref (nnl.math.autodiff::data ,obj) ,@indexs))
@@ -132,4 +139,12 @@
 
 (defmacro instant-mse (data-1 data-2)
   `(nnl.math.autodiff::data (nnl.math.autodiff:mse (nnl.math.autodiff:make-tensor :data ,data-1) (nnl.math.autodiff:make-tensor :data ,data-2))))
+  
+(defun copy (obj)
+  (make-instance 'nnl.math.autodiff:tensor
+	:data (nnl.math.autodiff::data obj)
+	:grad (nnl.math.autodiff::grad obj)
+	:requires-grad (nnl.math.autodiff::requires-grad obj)
+	:parents (nnl.math.autodiff::parents obj)
+	:backward (nnl.math.autodiff::backward obj)))
   

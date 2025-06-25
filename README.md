@@ -229,12 +229,12 @@ Example of Experimental Interface (XOR):
 
 (setf *random-state* (make-random-state t))
 
-$(let* ((a (nnl.hli:sequential
-             (nnl.hli:fc 2 -> 2)
-             (nnl.hli:fc 2 -> 2)
-             (nnl.nn:tanh)
-             (nnl.hli:fc 2 -> 1)
-             (nnl.nn:sigmoid)))
+(let* ((a (nnl.hli:sequential
+            (nnl.hli:fc 2 -> 2)
+            (nnl.hli:fc 2 -> 2)
+            (nnl.nn:tanh)
+            (nnl.hli:fc 2 -> 1)
+            (nnl.nn:sigmoid)))
 
         (input (nnl.math:make-tensor #2A((0 0) (1 0) (0 1) (1 1))))
         (target (nnl.math:make-tensor #2A((0) (1) (1) (0))))
@@ -242,7 +242,7 @@ $(let* ((a (nnl.hli:sequential
         (epochs 1000)
         (params (nnl.nn:get-parameters a))
 
-        (optim (nnl.optims:make-optim 'nnl.optims:gd :lr 1 :parameters params)))
+        (optim (nnl.optims:make-optim 'nnl.optims:momentum :lr 0.1 :parameters params)))
 
   (dotimes (i epochs)
     (let* ((forward-pass (nnl.nn:forward a input))
@@ -250,31 +250,21 @@ $(let* ((a (nnl.hli:sequential
 
       (nnl.math:backprop loss)
 
-      (nnl.utils:clip-grad params :method :l1)
-
       (nnl.optims:step optim)
       (nnl.optims:zero-grad optim)))
 
-  (nnl.nn:forward a input)) ; approximately #(0 1 1 0)
-```
-
-*$* Is an special operator that displays tensor values
-
-Example:
-
-```lisp
-$(nnl.math:make-tensor #(1 2 3 4 5 6 7 8 9 0))
+  (print (magicl:map #'nnl.utils:binary-threashold (nnl.math:item (nnl.nn:forward a input))))) ; #(0 1 1 0)
 ```
 
 **ABOUT MLP:**
 
-MLP does not yet have a high-level interface
-
 The definition looks something like this:
 
 ```lisp
-(nnl.nn:mlp :order '(2 2 nnl.nn::intern-tanh 1 nnl.nn::intern-sigmoid))
+(nnl.hli:mlp '(2 -> 2 -> nnl.nn::intern-tanh -> 1 -> nnl.nn::intern-sigmoid) ... )
 ```
+
+where ... is keys (like :init :xavier/uniform)
 
 which is similar
 
@@ -290,7 +280,7 @@ which is similar
 
 **TODO:**
 
-MLP(rework), Vanilla RNN, GRU, LSTM, BiRNN, BiGRU, BiLSTM, potentially transformers, potentially lenet <br>
+Vanilla RNN, GRU, LSTM, BiRNN, BiGRU, BiLSTM, potentially transformers, potentially lenet <br>
 optimize Autodiff<br>
 make documentation<br>
 make a dropout, dropconnect<br>

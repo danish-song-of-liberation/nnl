@@ -11,6 +11,7 @@
    (%grad 
 	:initform 0.0
 	:accessor grad
+	:initarg :grad
 	:documentation "Gradient of the tensor
 					The type is not specified due to the separation of data types.
 					type = magicl:tensor (or matrix/vector)/single-float (or double-float)
@@ -30,6 +31,7 @@
    (%backward 
     :initform #'(lambda ())
 	:accessor backward
+	:initarg :backward
 	:type function
 	:documentation "function for backpropagation")))
 
@@ -123,16 +125,31 @@
 			
 	out))
 	
-(defmethod mse ((self tensor) other)
+(defmethod intern-axpy ((self tensor) other &key alpha)
+  "todo optimize"
+  
   (let* ((other (if (typep other 'tensor) other (make-instance 'tensor :data other)))
 		 (out (make-instance 'tensor 
-				 :data (magicl:.^ (magicl:.- (data self) (data other)) 2)
+				 :data (magicl:.+ (magicl:scale (data self) alpha) (data other))
 				 :requires-grad (or (requires-grad self) (requires-grad other))
 				 :parents (list self other))))
 	
-	(setf (backward out) #'(lambda () (derivative-mse out self other))) 
+	(setf (backward out) #'(lambda () (derivative-axpy out self other alpha))) 
 	
 	out))
+	
+(defmethod intern-axpy (other (self tensor) &key alpha)
+  "todo optimize"
+  
+  (let* ((other (if (typep other 'tensor) other (make-instance 'tensor :data other)))
+		 (out (make-instance 'tensor 
+				 :data (magicl:.+ (magicl:scale (data other) alpha) (data self))
+				 :requires-grad (or (requires-grad other) (requires-grad self))
+				 :parents (list self other))))
+	
+	(setf (backward out) #'(lambda () (derivative-axpy out other self alpha))) 
+	
+	out))	
 	
 (defun zero-grad-once! (obj)
   (setf (grad obj) 0.0))

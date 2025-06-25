@@ -32,7 +32,9 @@
 														 (:file "autodiff-h" :type "lisp")))
 														 
 											(:file "basic-accessors" :type "lisp")
-											(:file "broadcasting" :type "lisp")))
+											(:file "broadcasting" :type "lisp")
+											(:file "losses" :type "lisp")
+											(:file "concat" :type "lisp")))
 											
 							 (:module "init"
 							  :components ((:file "init" :type "lisp")
@@ -53,7 +55,8 @@
 														 
 							 (:module "optims"
 							  :components ((:file "optims" :type "lisp")
-										   (:file "gd" :type "lisp")))
+										   (:file "gd" :type "lisp")
+										   (:file "momentum" :type "lisp")))
 											
 							 (:module "utils"
 							  :components ((:file "utils" :type "lisp")

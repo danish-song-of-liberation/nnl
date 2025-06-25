@@ -45,3 +45,7 @@
     (1 (make-random-vector (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))
 	(2 (make-random-matrix (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))
 	(3 (make-random-tensor (get-magicl-type shapes nnl.system::*calculus-system*) shapes from to))))
+	
+(defun zeros-like (tensor)
+  (let ((shape (magicl:shape tensor)))
+    (magicl:zeros shape)))  

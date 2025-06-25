@@ -7,5 +7,9 @@
   `(nnl.nn:fc :i ,i :o ,o ,@keys))
 
 (defmacro mlp (neurons &body keys)
-  `(nnl.nn:mlp :order (loop for item in ,neurons when (identity item) collect item) ,@keys))
+  "not ``(remove '-> neurons)`` cause pointers diverge"
+  
+  `(nnl.nn:mlp :order (remove-if (lambda (x) (and (symbolp x) (string= (symbol-name x) "->"))) ,neurons) ,@keys))
+					 
+					 
   

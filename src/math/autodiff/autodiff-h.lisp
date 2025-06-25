@@ -10,6 +10,7 @@
 			   Parents: ~a~%
 			   Backward: ~a~%
 			   Grad (may be incorrect if backpropagation has not yer been carried out): ~a~%"
+			   
 	self (data self) (requires-grad self) (parents self) (backward self) (grad self)))
 
 (defun repr! (tensor)
@@ -44,6 +45,12 @@
   
 (defun matmul (&rest args)
   (reduce #'ll-matmul args))
+  
+(defmethod axpy ((self tensor) other &key (alpha 1.0))
+  (intern-axpy self other :alpha alpha))
+
+(defmethod axpy (other (self tensor) &key (alpha 1.0))
+  (intern-axpy other self :alpha alpha))
   
 (defun item (obj)
   (data obj))

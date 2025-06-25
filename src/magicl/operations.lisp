@@ -79,4 +79,9 @@
 		  
 	  (t 
 	    (reduce #'(lambda (tensor axis) (sum tensor :axes (list axis))) axes :initial-value tensor)))))
-		
+	
+(defun abs (tensor)	
+  (magicl:map #'(lambda (x) (cl:abs x)) tensor))
+  
+(defun abs! (tensor)	
+  (magicl:map! #'(lambda (x) (cl:abs x)) tensor))
