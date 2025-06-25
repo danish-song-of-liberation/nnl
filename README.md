@@ -1,7 +1,7 @@
 # nnl 0.1.0 (W.I.P.)
 Сommon lisp neural networks mvp framework
 
-**About the Author:** This framework is being developed by a 14-year-old as a personal *solo* project. It's currently 8 days (actually 7 because 1 of them I was resting) in the making! *All code, all bugs, all mine!*
+**About the Author:** This framework is being developed by a 14-year-old as a personal *solo* project. It's currently 9 days (actually 8 because 1 of them I was resting) in the making! *All code, all bugs, all mine!*
 
 I write the framework mainly for myself because writing on torch or tensorflow develops into eternal procrastination and unwillingness to write code on it. there are only phi tests YET (attention to the word yet)
 
