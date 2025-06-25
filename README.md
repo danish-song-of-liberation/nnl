@@ -198,20 +198,6 @@ The current interface for working with models is low-level and requires a deep u
 
 The future direction for NNL models is to provide a high-level, DSL (Domain Specific Language) oriented interface for defining neural network architectures. The goal is to make it easy to create and experiment with different models without having to write low-level code.
 
-**Planned Syntax Example:**
-
-The planned syntax will look something like this:
-
-```lisp
-(let ((a (letnet () 
-             (fc 2 -> 4) 
-             (relu) 
-             (fc 4 -> 2)
-             (softmax))))
-  a)
-```
-
-
 **High-Level Interface (nnl.hli) (Experimental)**
 
 **Current Status:**
