@@ -3,7 +3,7 @@
 (defclass intern-relu () ()
   (:documentation "todo"))
   
-(defmethod forward ((nn intern-relu) input-data)
+(defmethod forward ((nn intern-relu) input-data &key padding-mask)
   (nnl.math:.relu input-data))
   
 (defmethod get-parameters ((nn intern-relu))

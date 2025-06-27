@@ -17,7 +17,7 @@
 	
   (:documentation "todo"))
   
-(defmethod forward ((self intern-sequential) input-data)
+(defmethod forward ((self intern-sequential) input-data &key padding-mask)
   (dolist (layer (layers self))
     (setq input-data (forward layer input-data)))
 

@@ -9,7 +9,7 @@
 	:documentation "todo"))
   (:documentation "todo"))
   
-(defmethod forward ((nn intern-activation) input-data)
+(defmethod forward ((nn intern-activation) input-data &key padding-mask)
   (nnl.math:activation input-data (activation-function nn)))
   
 (defmethod get-parameters ((nn intern-activation))

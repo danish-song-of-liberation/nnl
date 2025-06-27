@@ -3,7 +3,7 @@
 (defclass sigmoid () ()
   (:documentation "todo"))
   
-(defmethod forward ((nn sigmoid) input-data)
+(defmethod forward ((nn sigmoid) input-data &key padding-mask)
   (nnl.math:.sigmoid input-data))
   
 (defmethod get-parameters ((nn sigmoid))

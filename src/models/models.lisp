@@ -5,6 +5,6 @@
   
 (in-package :nnl.nn)
 
-(defgeneric forward (model data))
+(defgeneric forward (model data &key padding-mask))
 (defgeneric parameters (model))
   

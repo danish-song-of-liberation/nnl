@@ -122,7 +122,7 @@
   obj)
   
 (defun transpose (obj)
-  (let* ((obj obj)
+  (let* ((obj (nnl.math:copy obj))
 		 (data-tensor (nnl.math.autodiff::data obj)))
 		 
     (setf (nnl.math.autodiff::data obj) (nnl.magicl:transpose (nnl.magicl:get-magicl-type (magicl:shape data-tensor) nnl.system::*calculus-system*) data-tensor))

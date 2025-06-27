@@ -27,7 +27,7 @@
     :initform -1.0
 	:initarg :from
 	:reader init-from)
-   (%initialize-todo
+   (%initialize-to
     :initform 1.0
 	:initarg :to
 	:reader init-to))
@@ -60,7 +60,7 @@
 		(when use-bias-p
 		  (setf (bias nn) (nnl.math:scale (nnl.init:xavier-uniform-initialize (list output-shapes) (+ input-shapes output-shapes) :requires-grad t) 0.1)))))))
 		  
-(defmethod forward ((nn intern-fc) input-data)  
+(defmethod forward ((nn intern-fc) input-data &key padding-mask) ;todo padding mask (tbh its useless in fc)  
   (let ((result (nnl.math:matmul input-data (weights nn)))) ;; weights already transposed in initialization
     (if (use-bias nn)
 	  (nnl.math:with-broadcasting #'+ result (bias nn))

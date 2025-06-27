@@ -3,7 +3,7 @@
 (defclass intern-leaky-relu () ()
   (:documentation "todo"))
   
-(defmethod forward ((nn intern-leaky-relu) input-data)
+(defmethod forward ((nn intern-leaky-relu) input-data &key padding-mask)
   (nnl.math:.leaky-relu input-data))
   
 (defmethod get-parameters ((nn intern-leaky-relu))

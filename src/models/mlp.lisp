@@ -42,7 +42,7 @@
 				 
 			     (setf (nth i (layers nn)) (make-instance current-o)))))))
 
-(defmethod forward ((nn intern-mlp) input-data)
+(defmethod forward ((nn intern-mlp) input-data &key padding-mask)
   (dolist (layer (layers nn))
     (setf input-data (forward layer input-data)))
 	

@@ -51,6 +51,9 @@
 										   (:file "tanh" :type "lisp")
 										   (:file "activation" :type "lisp")
 										   (:file "mlp" :type "lisp")
+										   (:file "_unirnn-internal-implementation" :type "lisp")
+										   (:file "_birnn-internal-implementation" :type "lisp")
+										   (:file "vanilla-rnn" :type "lisp")
 										   (:file "sequential" :type "lisp")))
 														 
 							 (:module "optims"
