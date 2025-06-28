@@ -266,7 +266,7 @@ which is similar
 
 **TODO:**
 
-Vanilla RNN, GRU, LSTM, BiRNN, BiGRU, BiLSTM, potentially transformers, potentially lenet <br>
+Vanilla RNN, GRU, LSTM, BiRNN, BiGRU, BiLSTM, potentially transformers (I'm doing rnn now) <br>
 optimize Autodiff<br>
 make documentation<br>
 make a dropout, dropconnect<br>
