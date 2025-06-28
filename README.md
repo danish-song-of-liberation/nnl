@@ -22,7 +22,7 @@
 
 **About the Author:** This framework is being developed by a 14-year-old as a personal *solo* project. It's currently 12 days (actually 11 because 1 of them I was resting) in the making! *All code, all bugs, all mine!*
 
-I write the framework mainly for myself because writing on torch or tensorflow develops into eternal procrastination and unwillingness to write code on it. there are only phi tests YET (attention to the word yet)
+I write the framework mainly for myself because writing on torch or tensorflow develops into eternal procrastination and unwillingness to write code on it.
 
 ## Note
 
