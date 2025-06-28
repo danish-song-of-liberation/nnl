@@ -26,6 +26,13 @@
   (setf *read-default-float-format* new-system)
   (setf magicl::*default-tensor-type* new-system))					
 						
+(defconstant *default-random-state* *random-state*)					
+						
 (defun ~= (x y &key (tolerance *approximately-equal-default-tolerance*))
   (<= (abs (- x y)) tolerance))		
+
+(defun random-state-was-reset-p ()
+  (equalp *random-state* *default-random-state*))  
+  
+(defparameter *silent-mode* nil)   
   

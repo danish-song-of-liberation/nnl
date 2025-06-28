@@ -159,4 +159,7 @@
      (0 (vstack ,@tensors))
 	 (1 (hstack ,@tensors))
 	 (otherwise (error "todo description"))))
+	 
+(defmacro requires-grad (obj)
+  `(nnl.math.autodiff::requires-grad ,obj))	 
   

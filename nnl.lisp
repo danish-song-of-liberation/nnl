@@ -78,6 +78,12 @@
 							  :components ((:file "math-tests" :type "lisp")
 										   (:file "phi-tests" :type "lisp")))
 										   
+							 (:module "init"
+							  :components ((:file "init-tests" :type "lisp")
+										   (:file "random-tests" :type "lisp")
+										   (:file "xavier-normal-test" :type "lisp")
+										   (:file "xavier-uniform-test" :type "lisp")))
+										   
 							 (:file "tests"))))
 							 
 	:perform (asdf:test-op (o c)
