@@ -53,7 +53,11 @@
    (%use-bias
     :initform t
     :accessor use-bias
-	:initarg :use-bias))
+	:initarg :use-bias)
+   (%activation
+    :initform #'(lambda (x) (nnl.math:.tanh x))
+	:accessor activation
+	:initarg :activation))
 	
   (:documentation "unirnn internal implementation (todo documentation)"))
   
@@ -98,9 +102,12 @@
 		    (setf (bias-output nn) (nnl.init:xavier-uniform-initialize (list output-shapes) sum-input-output :requires-grad t))))))))
   
 (defmethod forward ((nn intern-unidirectional-rnn) input-data &key padding-mask)
+  "PRAY THAT AUTODIFF CAN PROCESS THIS (todo docstring)"
+  
   (let* ((shape (nnl.math:shape input-data))
 		 (sequence-length (first shape))
 		 (batch-size (second shape))
+		 (tag-size (third shape))
 		 (input-shapes (input-shapes nn))
 		 (output-shapes (output-shapes nn))
 		 (hidden-size (hidden-size nn)))
@@ -108,5 +115,37 @@
     (unless padding-mask
 	  (setq padding-mask (nnl.math:ones (list sequence-length batch-size))))
 	  
-	(let ((hidden-state (nnl.math:zeros (list batch-size hidden-size)))))))
-  
+	(let ((hidden-state (nnl.math:zeros (list batch-size hidden-size)))
+		  (sequence (magicl:make-tensor (nnl.magicl:get-magicl-type '(0 0 0) nnl.system::*calculus-system*) (list sequence-length batch-size tag-size))))
+		  
+	  (dotimes (i sequence-length)
+	    (let ((xt (magicl:make-tensor (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) (list batch-size tag-size)))
+			  (mask-t (magicl:make-tensor (nnl.magicl:get-magicl-type '(0) nnl.system::*calculus-system*) (list sequence-length))))
+			  
+		  (loop for j from 0 below batch-size ; O(2n) ???
+				do (loop for k from 0 below tag-size
+						 do (setf (magicl:tref xt j k) (magicl:tref (nnl.math.autodiff::data input-data) i j k))
+						 do (setf (magicl:tref mask-t j) (magicl:tref (nnl.math.autodiff::data padding-mask) i j))))
+						 
+		  ; i guess you are a beginner who decided to read the 
+		  ; neural network core and see what happens under the hood				 
+	 
+		  (let* ((concat-ht-1-xt (nnl.math:concat 1 xt hidden-state))
+		  
+				 (whh-by-cc (nnl.math:matmul
+							  (weights-hidden nn)
+							  (nnl.math:transpose concat-ht-1-xt)))
+							  
+				 (bh-whh (if (use-bias-hidden nn) 
+						   (nnl.math:with-broadcasting #'+ whh-by-cc (bias-hidden nn))
+						   whh-by-cc))
+				
+				 (activation (funcall (activation nn) bh-whh)))
+							  
+			; if there were money for unreadable code i would 
+			; be the richest person in the world
+							  
+			(setf hidden-state activation))
+	  
+	  hidden-state)))))
+				 

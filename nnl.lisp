@@ -11,7 +11,9 @@
   :depends-on (:fiveam :magicl)
   :serial nil
   :components ((:module "src"
-				:components ((:module "magicl"
+				:components ((:file "config" :type "lisp")
+				
+							 (:module "magicl"
 							  :components ((:file "magicl" :type "lisp")
 										   (:file "coerce-data" :type "lisp")	
 										   (:file "operations" :type "lisp")
@@ -34,7 +36,8 @@
 											(:file "basic-accessors" :type "lisp")
 											(:file "broadcasting" :type "lisp")
 											(:file "losses" :type "lisp")
-											(:file "concat" :type "lisp")))
+											(:file "concat" :type "lisp")
+											(:file "tensor-accessors" :type "lisp")))
 											
 							 (:module "init"
 							  :components ((:file "init" :type "lisp")
@@ -79,32 +82,7 @@
 							 
 	:perform (asdf:test-op (o c)
                (uiop:symbol-call :nnl.tests :run-all-tests)))
-						 																				
-(defpackage :nnl.system
-  (:use :cl)
-  (:export :change-calculus-system! ~=))		
+						 																						
 						
-(in-package :nnl.system)
-
-(defparameter *calculus-system* 'single-float
-  "Global variable that determines the floating-point 
-   number system used for calculations within a specific 
-   mathematical functionality")
-   
-(defparameter *leakyrelu-default-shift* 0.01)
-(defparameter *approximately-equal-default-tolerance* 0.0001)
-(defparameter *clipgrad-l1-default-threashold* 1.0)
-						
-(setf *read-default-float-format* *calculus-system*)
-
-(defun change-calculus-system! (new-system)
-  "WARNING: The function has side effects
-  
-   function for quickly changing the type of calculus"
-   
-  (setf *calculus-system* new-system)
-  (setf *read-default-float-format* new-system))					
-						
-(defun ~= (x y &key (tolerance *approximately-equal-default-tolerance*))
-  (<= (abs (- x y)) tolerance))						
+				
 						
