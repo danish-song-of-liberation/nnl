@@ -245,7 +245,7 @@ NNL provides several functions for accessing elements, subvectors, and submatric
 
 All access functions support backpropagation. When you access part of a tensor and perform operations on it, gradients will be properly propagated back to the original tensor.
 
-**Example with Backpropagation:*
+**Example with Backpropagation:**
 
 ```lisp
 (let* ((a (nnl.math:zeros '(3 3) :requires-grad t))
