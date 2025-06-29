@@ -89,7 +89,7 @@
 (defun slice (tensor row-start row-end col-start col-end)
   "cause magicl:slice doesnt have normal docstring"
   
-  (format t "~a, ~a, ~a, ~a~%" row-start  row-end col-start col-end)
+  (declare (type integer row-start row-end col-start col-end))
   
   (let* ((shape (magicl:shape tensor))
 		 (all-rows (first shape))
@@ -107,3 +107,25 @@
 											for src-j from col-start do (setf (magicl:tref matrix i j) (magicl:tref tensor src-i src-j))))
 											
 	matrix))
+
+(defun trefv (tensor &rest indicies)
+  (let* ((shape (magicl:shape tensor))
+		 (last-dimension (car (last shape)))
+		 (new-tensor (magicl:make-tensor (nnl.magicl:get-magicl-type '(0) nnl.system::*calculus-system*) (list last-dimension))))
+	
+	(dotimes (i last-dimension)
+	  (setf (magicl:tref new-tensor i) (apply #'magicl:tref tensor (append indicies (list i)))))
+	  
+	new-tensor))
+	
+(defun trefm (tensor &rest indicies)
+  (let* ((shape (magicl:shape tensor))
+		 (prelast-dimensions (subseq shape 1))
+		 (new-tensor (magicl:make-tensor (nnl.magicl:get-magicl-type '(0 0) nnl.system::*calculus-system*) prelast-dimensions)))
+		 
+	(dotimes (i (first prelast-dimensions))
+	  (dotimes (j (second prelast-dimensions))
+		(setf (magicl:tref new-tensor i j) (apply #'magicl:tref tensor (append indicies (list i j))))))
+	
+	new-tensor))
+	
