@@ -26,10 +26,8 @@
 (defun ones (shape &key (requires-grad nil))
   (nnl.math.autodiff:make-tensor :data (magicl:ones shape) :requires-grad requires-grad))
   
-(defun full (shape filler &key (requires-grad nil))
-  (let ((new-tensor (magicl:ones shape)))
-    (magicl:scale! new-tensor filler)
-	(nnl.math.autodiff:make-tensor :data new-tensor :requires-grad requires-grad)))
+(defun full (shape &optional (filler 0) &key (requires-grad nil))
+  (nnl.math.autodiff:make-tensor :data (magicl:const filler shape :type nnl.system::*calculus-system*) :requires-grad requires-grad))
 	
 (defun arange (start-from end-to &optional (step 1) &key (requires-grad nil))
   (let ((new-tensor (magicl:make-tensor (nnl.magicl:get-magicl-type '(0) nnl.system::*calculus-system*) (list (/ end-to step)))))
@@ -109,11 +107,21 @@
   (let ((shape (shape atensor)))
     (zeros shape :requires-grad requires-grad)))  
  
+(defmacro from-diag (list &key requires-grad)
+  `(nnl.math.autodiff:make-tensor 
+	 :data (magicl:from-diag ,list :type nnl.system::*calculus-system*)
+	 :requires-grad ,requires-grad))
+ 
 (defmacro at (obj &body indexs)
   `(magicl:tref (nnl.math.autodiff::data ,obj) ,@indexs))
   
 (defmacro backprop (obj)
   `(nnl.math.autodiff:backprop ,obj))  
+  
+(defmacro from-list (list shape &key requires-grad) 
+  `(nnl.math.autodiff:make-tensor 
+     :data (magicl:from-list ,list ,shape :type nnl.system::*calculus-system*)
+	 :requires-grad ,requires-grad))
   
 (defun transpose! (obj)
   (let ((data-tensor (nnl.math.autodiff::data obj)))

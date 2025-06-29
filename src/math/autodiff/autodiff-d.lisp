@@ -93,9 +93,34 @@
 	
 (defun derivative-tref (out self pos)
   (when (requires-grad self)
-    (let* ((out-grad (grad out)))
+    (let ((out-grad (grad out)))
 	  (when (zerop (grad self))
 	    (setf (grad self) (magicl:make-tensor (nnl.magicl:get-magicl-type (magicl:shape (data self)) nnl.system::*calculus-system*) (magicl:shape (data self)))))
 		
 	  (setf (apply #'magicl:tref (grad self) pos) (magicl:tref (grad out) 0)))))
+
+(defun derivative-trefv (out self pos)
+  (when (requires-grad self)
+    (let* ((out-grad (grad out))
+		   (shape (magicl:shape (data self)))
+		   (last-shape (car (last shape))))
+		   
+	  (when (zerop (grad self))
+        (setf (grad self) (magicl:make-tensor (nnl.magicl:get-magicl-type (magicl:shape (data self)) nnl.system::*calculus-system*) (magicl:shape (data self))))) 	   
 	  
+	  (dotimes (i last-shape)
+	    (setf (apply #'magicl:tref (grad self) (append pos (list i))) (magicl:tref (grad out) i))))))
+			
+(defun derivative-trefm (out self pos)			
+  (when (requires-grad self)	
+	(let* ((out-grad (grad out))
+		   (shape (magicl:shape (data self)))
+		   (prelast-shape (subseq shape 1)))
+		   
+	  (when (zerop (grad self))
+        (setf (grad self) (magicl:make-tensor (nnl.magicl:get-magicl-type (magicl:shape (data self)) nnl.system::*calculus-system*) (magicl:shape (data self))))) 
+	
+	  (dotimes (i (first prelast-shape))
+		(dotimes (j (second prelast-shape))
+		  (setf (apply #'magicl:tref (grad self) (append pos (list i j))) (magicl:tref (grad out) i j)))))))
+		  

@@ -10,8 +10,23 @@
 	
 	out))
 		
-(defun ll-trew (tensor &rest pos)
-  "Tensor ref With subtensors support"
-  
- )
-		
+(defmethod trefv ((self tensor) &rest pos)
+  (let ((out (make-instance 'tensor 
+		      :data (apply #'nnl.magicl:trefv (data self) pos)
+			  :requires-grad (requires-grad self)
+			  :parents (list self))))
+	
+	(setf (backward out) #'(lambda () (derivative-trefv out self pos))) 
+	
+	out))
+
+(defmethod trefm ((self tensor) &rest pos)
+  (let ((out (make-instance 'tensor 
+		      :data (apply #'nnl.magicl:trefm (data self) pos)
+			  :requires-grad (requires-grad self)
+			  :parents (list self))))
+	
+	(setf (backward out) #'(lambda () (derivative-trefm out self pos))) 
+	
+	out))
+	
