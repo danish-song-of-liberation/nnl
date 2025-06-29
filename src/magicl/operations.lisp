@@ -89,13 +89,21 @@
 (defun slice (tensor row-start row-end col-start col-end)
   "cause magicl:slice doesnt have normal docstring"
   
-  (let* ((rows (1+ (- row-end row-start)))
+  (format t "~a, ~a, ~a, ~a~%" row-start  row-end col-start col-end)
+  
+  (let* ((shape (magicl:shape tensor))
+		 (all-rows (first shape))
+		 (rows (1+ (- row-end row-start)))
+		 (all-cols (second shape))
 		 (cols (1+ (- col-end col-start)))
 		 (matrix (magicl:make-tensor (get-magicl-type '(0 0) nnl.system::*calculus-system*) (list rows cols))))
+
+	(declare (type list shape) (type integer all-rows rows all-cols cols))
+
+	(assert (and (>= row-start 0) (< row-end all-rows) (>= col-start 0) (< col-end all-cols)) nil "todo description")
 
     (loop for i from 0 below rows
           for src-i from row-start do (loop for j from 0 below cols
 											for src-j from col-start do (setf (magicl:tref matrix i j) (magicl:tref tensor src-i src-j))))
 											
 	matrix))
-	

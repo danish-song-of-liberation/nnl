@@ -91,3 +91,11 @@
            
       (setf (grad other) (if (grad other) (magicl:.+ (grad other) grad-other) grad-other)))))	  
 	
+(defun derivative-tref (out self pos)
+  (when (requires-grad self)
+    (let* ((out-grad (grad out)))
+	  (when (zerop (grad self))
+	    (setf (grad self) (magicl:make-tensor (nnl.magicl:get-magicl-type (magicl:shape (data self)) nnl.system::*calculus-system*) (magicl:shape (data self)))))
+		
+	  (setf (apply #'magicl:tref (grad self) pos) (magicl:tref (grad out) 0)))))
+	  
