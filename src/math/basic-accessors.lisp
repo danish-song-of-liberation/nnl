@@ -171,3 +171,12 @@
 (defmacro requires-grad (obj)
   `(nnl.math.autodiff::requires-grad ,obj))	 
   
+(defmacro tref (obj &body indicies)
+  `(nnl.math.autodiff:tref ,obj ,@indicies))
+
+(defmacro trefv (obj &body indicies)
+  `(nnl.math.autodiff:trefv ,obj ,@indicies))
+
+(defmacro trefm (obj &body indicies)
+  `(nnl.math.autodiff:trefm ,obj ,@indicies))  
+  

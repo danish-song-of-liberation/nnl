@@ -204,6 +204,62 @@ Here is a brief overview: numerical gradients are more compatible with magicl th
   (format t "Numerical grad: ~a~%~%" (nnl.magicl:numerical #'nummse a :precision 1))) ; precision 1 - df/dx [i] = lim (h -> 0.0) (f(x + he_i) - f(x)) / h
 ```
 
+### Accessing Tensor Elements
+
+NNL provides several functions for accessing elements, subvectors, and submatrices within tensors. These functions support backpropagation and gradient computation when used with tensors that have :requires-grad t.
+
+**Basic Element Access**
+
+```lisp (nnl.math:tref tensor &rest indices)``` - Returns a scalar tensor containing the element at the specified indices.
+
+**Example:**
+
+```lisp
+(let ((a (nnl.math:make-tensor #2A((1 2 3) (4 5 6)))))
+  (print (nnl.math:item (nnl.math:tref a 1 2)))) ;; 6.0
+```
+
+**Subvector Access:**
+
+```lisp (nnl.math:trefv tensor &rest indices)``` - Returns a vector tensor containing the subvector at the specified index.
+
+**Example:**
+
+```lisp
+(let ((a (nnl.math:make-tensor #2A((1 2 3) (4 5 6)))))
+  (print (nnl.math:item (nnl.math:trefv a 1)))) ;; #<magicl:vector/single-float (3): 4 5 6>
+```
+
+**Submatrix Access:**
+
+```lisp (nnl.math:trefm tensor &rest indices)``` - Returns a matrix tensor containing the submatrix at the specified index (for tensors of rank 3 or higher).
+
+**Example:**
+
+```lisp
+(let ((a (nnl.math:zeros '(3 3 3))))
+  (print (nnl.math:item (nnl.math:trefm a 1)))) ;;#<magicl:matrix/single-float (3): 0 0 0 \n 0 0 0 \n 0 0 0>
+```
+
+**Backpropagation Support**
+
+All access functions support backpropagation. When you access part of a tensor and perform operations on it, gradients will be properly propagated back to the original tensor.
+
+**Example with Backpropagation:*
+
+```lisp
+(let* ((a (nnl.math:zeros '(3 3) :requires-grad t))
+       (b (nnl.math:trefv a 0))
+       (c (nnl.math:* b 3)))
+
+  (print (nnl.math:item c)) ;; #<magicl:vector/single-float (3): 0 0 0>
+
+  (nnl.math:backprop c)
+
+  (terpri)
+
+  (print (nnl.math:grad a))) ;; #<magicl:matrix/single-float (3x3): 3 3 3 \n 0 0 0 \n 0 0 0>
+```
 
 ### Models: Current Status and Future Directions
 
